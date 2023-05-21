@@ -9,12 +9,12 @@ threads = []
 tempo = time.time()
 
 
-def pingar(ip:int):
-    p = subprocess.run(f'ping 192.168.1.{ip}', shell=True, capture_output = True, text=True)
+def pingar(base_ip:str, ip: int):
+    p = subprocess.run(f'ping 192.168.1.{ip}', shell=True, capture_output=True, text=True)
     resultado = p.stdout
-    
-    print(f'Pingando: 192.168.1.{ip}')
-    
+
+    print(f'Pingando: {base_ip}{ip}')
+
     if 'Host de destino inacess' in resultado or 'Esgotado o tempo limite do pedido.' in resultado or '100%' in resultado:
         pass
     else:
@@ -22,26 +22,28 @@ def pingar(ip:int):
                     (
                     {resultado}
                     )''')
-    
-    
-for ip in range(1,256):
+
+
+base_ip: str = input('Digite a base do seu ip (ex: 192.168.1.): \n    ')
+
+for ip in range(1, 256):
     # Cria as threads
-    t = threading.Thread(target=pingar, args=(ip,))
+    t = threading.Thread(target=pingar, args=(base_ip, ip))
     t.daemon = True
     threads.append(t)
 
 for thread in threads:
     # Iniciando as threads
     thread.start()
-    
+
 for thread in threads:
     # Esperando elas acabarem
     thread.join()
-    
+
 final = '\n'.join(ips)
 
 with open('ips.txt', 'w+') as file:
     file.write(final)
-    file.write(f'\n {len(ips)-1}')
-    
+    file.write(f'\n {len(ips) - 1}')
+
 print(f'Demorou: {time.time() - tempo}s')
