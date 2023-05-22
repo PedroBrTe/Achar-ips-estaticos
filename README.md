@@ -1,6 +1,6 @@
 # Achar-ips-estaticos
 Ferramenta para achar ips estaticos da rede<br />
-Funciona com qualquer máscara de sub-rede
+Funciona com qualquer máscara de sub-rede que apenas contem 255 e 0
 <br />
 Quando o codigo for completo ele vai gerar um txt com todos os ips que ele achou
 
